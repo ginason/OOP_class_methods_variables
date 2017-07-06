@@ -9,6 +9,7 @@ class Book
     @book_author = author
     @book_isbn = isbn
     @due_date = nil
+    @hold = nil
   end
 
   def borrow
@@ -50,6 +51,7 @@ class Book
       @@on_shelf << self
       @@on_loan.delete(self)
       @due_date = nil
+
       return true
     else
       return false
@@ -59,17 +61,25 @@ class Book
 def someone
   @@on_loan.each do |book|
     if book == self
-      "#{self} is already on loan"
+      puts "#{self.inspect} is already on loan"
     else
-      return borrow
+      puts "let's go borrow book !"
     end
+  end
+end
 
+def hold(status)
+  @hold = status
+  if @hold == false
+    puts "you can renew ! lucky!"
+  else
+    puts "you cant renew. sorry!"
   end
 end
 
   def renew
-    @renew_date = due_date + (60*60*24*7)
-    return @renew_date
+    @due_date = due_date + (60*60*24*7)
+    return @due_date
   end
 
   def self.overdue
@@ -129,32 +139,35 @@ puts '==========Borrowed book (on_loan)'
 puts Book.borrowed.inspect
 puts '==========mybook "Sister Outsider"'
 p my_book.lent_out?
+puts "$%$%$$%{$%{$%{}}}}"
+p my_book.borrow
 puts '=========mybook "borrowed Sister Outsider"'
 p Book.available
-puts '=========Check What books are available'
-p my_book.lent_out?
-puts '=========someone already borrowed'
-p my_book.borrow
+# puts '=========Check What books are available'
+# p my_book.lent_out?
+# puts '=========someone already borrowed'
+# p my_book.borrow
 puts "=========someone cant borrow"
 p my_book.due_date.inspect
+#
+# puts '==========Sister Outsider due_date'
+# p Book.available
+# puts "==========check out what books are available now"
 
-puts '==========Sister Outsider due_date'
-p Book.available
-puts "==========check out what books are available now"
-# p my_book.lent_out?
-# puts '========='
-# p my_book.borrow
-# puts Book.available.inspect
 puts "+++++++++++Borrowed book list"
 p Book.borrowed.inspect
-# p Book.overdue_books
-puts "there is nothing over duedate Good !!!!!"
-p Book.overdue
-puts "I want to return Sister outsider (true)"
-p my_book.return_to_library
-puts "now  Sister Outsider is available (false) "
-p my_book.lent_out?
-# puts "totla three books "
-p Book.available
-# puts "everything went back"
-# p Book.borrowed.inspect
+# # p Book.overdue_books
+# puts "there is nothing over duedate Good !!!!!"
+# p Book.overdue
+# puts "I want to return Sister outsider (true)"
+# p my_book.return_to_library
+# puts "now  Sister Outsider is available (false) "
+# p my_book.lent_out?
+#
+# p Book.available
+
+puts "+++++++++++"
+p my_book.someone
+p my_book.hold(false)
+p my_book.renew
+p my_book
